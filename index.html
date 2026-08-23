@@ -3,68 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AryaCast — Weather</title>
+<title>AryaCast - Weather App</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* colors and fonts, change here for a different look */
-:root {
-  --base: #eef0e6; --sd: #c6c9b9; --sl: #ffffff; --text: #3d4a3a; --dim: #8a9382;
-  --sun: #e0984a; --sky: #5a8f8a; --rain: #6b7fb0;
-  --head: "Poppins", sans-serif; --body: "Inter", sans-serif; --num: "JetBrains Mono", monospace;
-}
+/* colors, change here for different theme */
+:root { --base: #14202e; --sd: #0c1520; --sl: #1e2f45; --text: #e6edf4; --dim: #7c90a6; --sun: #0d87d2; --sky: #0d87d2; --rain: #8a6fc2; }
 * { box-sizing: border-box; }
-body { margin: 0; min-height: 100vh; background: var(--base); color: var(--text); font-family: var(--body); }
-.num { font-family: var(--num); }
-/* raised = box pops out, pressed = box pushed in (both use same bg, only shadow changes) */
+body { margin: 0; min-height: 100vh; background: var(--base); color: var(--text); font-family: "Inter", sans-serif; }
+.num { font-family: "JetBrains Mono", monospace; }
 .raised { background: var(--base); border-radius: 20px; box-shadow: 8px 8px 16px var(--sd), -8px -8px 16px var(--sl); }
 .pressed { background: var(--base); border-radius: 16px; box-shadow: inset 5px 5px 10px var(--sd), inset -5px -5px 10px var(--sl); }
-/* top bar */
 .top-bar { display: flex; align-items: center; gap: 18px; padding: 20px 30px; }
 .logo-circle { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--sun); font-size: 1.2rem; }
-.logo-text { font-family: var(--head); font-weight: 700; font-size: 1rem; letter-spacing: .14em; }
+.logo-text { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: .14em; }
 .search-box { position: relative; flex: 1; max-width: 400px; display: flex; }
 .search-inner { display: flex; align-items: center; width: 100%; padding: 4px 4px 4px 16px; border-radius: 999px; }
 .search-inner input { flex: 1; background: transparent; border: none; color: var(--text); font-size: .94rem; padding: 9px 6px; outline: none; }
 .search-inner input::placeholder { color: var(--dim); }
 .search-inner button { width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--base); color: var(--sun); font-size: 1rem; cursor: pointer; box-shadow: 4px 4px 8px var(--sd), -4px -4px 8px var(--sl); }
-.search-inner button:active { box-shadow: inset 3px 3px 6px var(--sd), inset -3px -3px 6px var(--sl); }
 .coords-text { color: var(--dim); font-size: .76rem; }
-/* main area, loading spinner, error box */
 .app-area { max-width: 1040px; margin: 0 auto; padding: 20px; }  .status-box { text-align: center; padding: 70px 20px; color: var(--dim); }
 .spinner { width: 28px; height: 28px; margin: 0 auto 14px; border-radius: 50%; position: relative; box-shadow: inset 4px 4px 8px var(--sd), inset -4px -4px 8px var(--sl); }
 .spinner::after { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 3px solid transparent; border-top-color: var(--sun); animation: spin .9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-/* hero: big temperature + wind compass */
 .hero-box { display: grid; grid-template-columns: 1.2fr 1fr; gap: 26px; align-items: center; padding: 32px 30px; margin-bottom: 18px; }
 @media (max-width: 700px) { .hero-box { grid-template-columns: 1fr; } }
 .place-name { color: var(--dim); font-size: .8rem; text-transform: uppercase; margin: 0 0 6px; }
-.temp-row { display: flex; align-items: flex-start; gap: 4px; line-height: 1; }  .temp-number { font-family: var(--head); font-weight: 700; font-size: 5.5rem; }
-.temp-unit { font-family: var(--head); font-size: 1.4rem; margin-top: 8px; color: var(--dim); }
+.temp-row { display: flex; align-items: flex-start; gap: 4px; line-height: 1; }  .temp-number { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 5.5rem; }
+.temp-unit { font-family: "Poppins", sans-serif; font-size: 1.4rem; margin-top: 8px; color: var(--dim); }
 .condition-text { font-size: 1.05rem; margin: 6px 0 4px; }  .feels-like { color: var(--dim); font-size: .8rem; margin: 0; }
 .compass-column { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .compass-circle { width: 190px; aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: inset 6px 6px 12px var(--sd), inset -6px -6px 12px var(--sl); }
 .compass-svg { width: 88%; }  .tick-lines line { stroke: var(--sd); stroke-width: 1.5; }  .tick-lines line.big-tick { stroke: var(--dim); stroke-width: 2; }
-.direction-label { fill: var(--dim); font-family: var(--num); font-size: 11px; }
+.direction-label { fill: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 11px; }
 .wind-needle { transition: transform 1.1s ease; }  .needle-arrow { fill: var(--rain); }  .needle-center { fill: var(--base); stroke: var(--sd); }
-.wind-reading-text { fill: var(--text); font-size: 12px; font-family: var(--num); }  .wind-caption { color: var(--dim); font-size: .74rem; margin: 0; }
-/* small gauge cards: humidity, pressure, rain, uv */
+.wind-reading-text { fill: var(--text); font-size: 12px; font-family: "JetBrains Mono", monospace; }  .wind-caption { color: var(--dim); font-size: .74rem; margin: 0; }
 .gauge-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 18px; }
 .gauge-card { padding: 14px 16px; }  .gauge-label { font-size: .68rem; text-transform: uppercase; color: var(--dim); margin: 0 0 6px; }
-.gauge-value { font-family: var(--head); font-size: 1.6rem; font-weight: 700; margin: 0; }
-.gauge-value small { font-family: var(--body); font-size: .8rem; color: var(--dim); font-weight: 400; }
+.gauge-value { font-family: "Poppins", sans-serif; font-size: 1.6rem; font-weight: 700; margin: 0; }
+.gauge-value small { font-family: "Inter", sans-serif; font-size: .8rem; color: var(--dim); font-weight: 400; }
 .gauge-bar-bg { height: 9px; border-radius: 6px; margin-top: 8px; box-shadow: inset 3px 3px 6px var(--sd), inset -3px -3px 6px var(--sl); }
 .gauge-bar-fill { height: 100%; background: var(--sky); border-radius: 6px; transition: width 1s ease; }
-/* hourly and daily panels */
 .panel-box { padding: 18px 24px; margin-bottom: 18px; }  .hourly-row { display: flex; gap: 10px; overflow-x: auto; padding: 4px 4px 8px; }
-.panel-heading { font-family: var(--head); font-weight: 700; font-size: .88rem; letter-spacing: .05em; text-transform: uppercase; color: var(--dim); margin: 0 0 14px; }
+.panel-heading { font-family: "Poppins", sans-serif; font-weight: 700; font-size: .88rem; letter-spacing: .05em; text-transform: uppercase; color: var(--dim); margin: 0 0 14px; }
 .hour-card { flex: 0 0 auto; width: 74px; text-align: center; padding: 12px 4px; border-radius: 14px; }
 .hour-card p { margin: 0 0 6px; }  .hour-time { font-size: .7rem; color: var(--dim); }  .hour-icon { font-size: 1.2rem; }
-.hour-temp { font-family: var(--head); font-weight: 700; font-size: 1.1rem; margin-bottom: 0; }
+.hour-temp { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 0; }
 .daily-list { display: flex; flex-direction: column; gap: 8px; }
 .day-row { display: grid; grid-template-columns: 66px 26px 1fr 92px; align-items: center; gap: 10px; padding: 10px 12px; }
 .day-name { font-size: .85rem; }  .day-low { color: var(--dim); }
-.day-temp-range { display: flex; gap: 6px; justify-self: end; font-family: var(--num); font-size: .8rem; }
+.day-temp-range { display: flex; gap: 6px; justify-self: end; font-family: "JetBrains Mono", monospace; font-size: .8rem; }
 .day-track { width: 64px; height: 6px; border-radius: 4px; position: relative; box-shadow: inset 2px 2px 4px var(--sd), inset -2px -2px 4px var(--sl); }
 .day-track-fill { position: absolute; top: 0; height: 100%; border-radius: 4px; background: var(--sun); }  .footer-text { text-align: center; color: var(--dim); font-size: .72rem; }
 </style>
@@ -73,26 +62,26 @@ body { margin: 0; min-height: 100vh; background: var(--base); color: var(--text)
 <header class="top-bar">
   <div class="logo-circle raised">✥</div><span class="logo-text">ARYACAST</span>
   <form class="search-box" id="searchForm" autocomplete="off">
-    <div class="search-inner pressed"><input type="text" id="cityInput" placeholder="Search a place..."><button type="submit">→</button></div>
+    <div class="search-inner pressed"><input type="text" id="cityInput" placeholder="Serch A Plce..."><button type="submit">→</button></div>
   </form>
-  <div class="coords-text num" id="coordsText">— · —</div>
+  <div class="coords-text num" id="coordsText">- . -</div>
 </header>
 <main class="app-area">
-  <!-- shown while loading -->
-  <section class="status-box" id="loadingBox"><div class="spinner"></div><p>Reading the instruments...</p></section>
+  <!-- shown while data is loading -->
+  <section class="status-box" id="loadingBox"><div class="spinner"></div><p>Readng The Instruemnts...</p></section>
   <!-- shown if something goes wrong -->
   <section class="status-box" id="errorBox" hidden>
-    <p style="color: var(--rain); font-family: var(--head); font-size: 1.4rem; margin: 0;">No signal.</p>
-    <p id="errorMessage">Try another place.</p>
+    <p style="color: var(--rain); font-family: 'Poppins', sans-serif; font-size: 1.4rem; margin: 0;">No Signl.</p>
+    <p id="errorMessage">Try Anothr Plce.</p>
   </section>
-  <!-- main dashboard, hidden until data is ready -->
+  <!-- main dashboard, hidden until weather data comes -->
   <section id="dashboardBox" hidden>
     <section class="hero-box raised">
       <div>
-        <p class="place-name num" id="placeText">—</p>
+        <p class="place-name num" id="placeText">-</p>
         <div class="temp-row"><span class="temp-number" id="tempNumber">--</span><span class="temp-unit">°C</span></div>
-        <p class="condition-text" id="conditionText">—</p>
-        <p class="feels-like num">feels like <span id="feelsLikeText">--°</span></p>
+        <p class="condition-text" id="conditionText">-</p>
+        <p class="feels-like num">Feals Like <span id="feelsLikeText">--°</span></p>
       </div>
       <div class="compass-column">
         <div class="compass-circle">
@@ -104,85 +93,92 @@ body { margin: 0; min-height: 100vh; background: var(--base); color: var(--text)
             <text class="wind-reading-text" x="110" y="150" text-anchor="middle" id="windSpeedText">-- km/h</text>
           </svg>
         </div>
-        <p class="wind-caption num">WIND · <span id="windDirText">--</span></p>
+        <p class="wind-caption num">WNID · <span id="windDirText">--</span></p>
       </div>
     </section>
     <section class="gauge-grid" id="gaugeGrid"></section>
-    <section class="panel-box raised"><h2 class="panel-heading">Next 24 hours</h2><div class="hourly-row" id="hourlyRow"></div></section>
-    <section class="panel-box raised"><h2 class="panel-heading">7-day outlook</h2><div class="daily-list" id="dailyList"></div></section>
-    <p class="footer-text num">Data via Open-Meteo · updated <span id="updatedTimeText">—</span></p>
+    <section class="panel-box raised"><h2 class="panel-heading">Next 24 Hors</h2><div class="hourly-row" id="hourlyRow"></div></section>
+    <section class="panel-box raised"><h2 class="panel-heading">7 Dya Outlok</h2><div class="daily-list" id="dailyList"></div></section>
+    <p class="footer-text num">Data Va Opne-Meteo</p>
   </section>
 </main>
 <script>
-// AryaCast weather dashboard. Data from Open-Meteo (free, no api key needed)
-const GEOCODE_API_URL = "https://geocoding-api.open-meteo.com/v1/search";
-const WEATHER_API_URL = "https://api.open-meteo.com/v1/forecast";
+// AryaCast weather app. uses Open-Meteo (free, no api key needed)
+var GEOCODE_API_URL = "https://geocoding-api.open-meteo.com/v1/search";
+var WEATHER_API_URL = "https://api.open-meteo.com/v1/forecast";
 function getEl(id) { return document.getElementById(id); }
 // weather code number -> [text, emoji]
-const WEATHER_CODES = { 0: ["Clear sky", "☀"], 1: ["Mainly clear", "🌤"], 2: ["Partly cloudy", "⛅"], 3: ["Overcast", "☁"],
-  45: ["Fog", "🌫"], 48: ["Rime fog", "🌫"], 51: ["Light drizzle", "🌦"], 53: ["Drizzle", "🌦"],
-  55: ["Dense drizzle", "🌦"], 61: ["Light rain", "🌧"], 63: ["Rain", "🌧"], 65: ["Heavy rain", "🌧"],
-  71: ["Light snow", "🌨"], 73: ["Snow", "🌨"], 75: ["Heavy snow", "❄"], 80: ["Showers", "🌦"],
-  81: ["Showers", "🌦"], 82: ["Violent showers", "⛈"], 95: ["Thunderstorm", "⛈"], 96: ["Thunderstorm + hail", "⛈"] };
-function getWeatherLabel(code) { return (WEATHER_CODES[code] || ["Unknown"])[0]; }
-function getWeatherIcon(code) { return (WEATHER_CODES[code] || ["", "•"])[1]; }
-function drawCompassTicks() { // draw small tick marks around the compass circle
-  const cx = 110, cy = 110, outerR = 96, group = getEl("tickLinesGroup");
-  for (let deg = 0; deg < 360; deg += 10) {
-    const isBig = deg % 90 === 0, innerR = isBig ? 82 : 88;
-    const angle = (deg - 90) * (Math.PI / 180); // shift so 0 points up (north)
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+var WEATHER_CODES = { 0: ["Clera Sky", "☀"], 1: ["Mainl Clear", "🌤"], 2: ["Partl Cloudy", "⛅"], 3: ["Overcat", "☁"],
+  45: ["Fgo", "🌫"], 48: ["Rime Fgo", "🌫"], 51: ["Ligth Drizle", "🌦"], 53: ["Drizle", "🌦"],
+  55: ["Dense Drizle", "🌦"], 61: ["Ligth Rian", "🌧"], 63: ["Rian", "🌧"], 65: ["Heavy Rian", "🌧"],
+  71: ["Ligth Snwo", "🌨"], 73: ["Snwo", "🌨"], 75: ["Heavy Snwo", "❄"], 80: ["Showres", "🌦"],
+  81: ["Showres", "🌦"], 82: ["Violnet Showres", "⛈"], 95: ["Thunderstrom", "⛈"], 96: ["Thunderstrom + Hial", "⛈"] };
+function getWeatherLabel(code) { if (WEATHER_CODES[code]) return WEATHER_CODES[code][0]; return "Unkown"; }
+function getWeatherIcon(code) { if (WEATHER_CODES[code]) return WEATHER_CODES[code][1]; return "•"; }
+function drawCompassTicks() { // draws small tick marks around the compass circle
+  var cx = 110, cy = 110, outerR = 96, group = getEl("tickLinesGroup");
+  for (var deg = 0; deg < 360; deg = deg + 10) {
+    var isBig = (deg % 90 === 0), innerR = isBig ? 82 : 88;
+    var angle = (deg - 90) * (Math.PI / 180); // -90 so it starts pointing up
+    var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
     line.setAttribute("x1", (cx + outerR * Math.cos(angle)).toFixed(1));
     line.setAttribute("y1", (cy + outerR * Math.sin(angle)).toFixed(1));
     line.setAttribute("x2", (cx + innerR * Math.cos(angle)).toFixed(1));
     line.setAttribute("y2", (cy + innerR * Math.sin(angle)).toFixed(1));
-    if (isBig) line.classList.add("big-tick"); group.appendChild(line);
+    if (isBig) { line.classList.add("big-tick"); }
+    group.appendChild(line);
   }
 }
 // wind angle number (like 90) -> letter (like "E")
-function angleToCompassLetter(deg) { return ["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(deg / 45) % 8]; }
-function clampNumber(value, min, max) { return Math.max(min, Math.min(max, value)); }
-async function findPlace(placeName, howMany) { // ask open-meteo: "where is this place?" gives back lat/lon
-  const url = GEOCODE_API_URL + "?name=" + encodeURIComponent(placeName) + "&count=" + howMany + "&language=en&format=json";
-  const res = await fetch(url); const data = await res.json();
-  return data.results || [];
+function angleToCompassLetter(deg) { var letters = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]; return letters[Math.round(deg / 45) % 8]; }
+function clampNumber(value, min, max) { if (value < min) return min; if (value > max) return max; return value; }
+// ask open-meteo: "where is this place?" gives back lat/lon
+function findPlace(placeName, howMany, callback) {
+  var url = GEOCODE_API_URL + "?name=" + encodeURIComponent(placeName) + "&count=" + howMany + "&language=en&format=json";
+  fetch(url).then(function (res) { return res.json(); }).then(function (data) { callback(data.results || []); });
 }
-function buildPlaceLabel(place) { // build a label like "Patna, Bihar" from place data
-  return [place.name, place.admin1, place.country].filter(function (p) { return p; }).slice(0, 2).join(", ");
+// makes a label like "Patna, Bihar" from the place data
+function buildPlaceLabel(place) {
+  var parts = [];
+  if (place.name) parts.push(place.name);
+  if (place.admin1) parts.push(place.admin1);
+  if (place.country && parts.length < 2) parts.push(place.country);
+  return parts.join(", ");
 }
-async function searchAndShowWeather(placeName) { // user typed a place and hit search
+function searchAndShowWeather(placeName) { // user typed a place and hit search
   showOnly("loadingBox");
-  try {
-    const results = await findPlace(placeName, 1);
+  findPlace(placeName, 1, function (results) {
     if (results.length === 0) {
-      getEl("errorMessage").textContent = "Couldn't find \"" + placeName + "\"."; showOnly("errorBox"); return;
+      getEl("errorMessage").textContent = "Coudln't Fnd \"" + placeName + "\".";
+      showOnly("errorBox");
+      return;
     }
-    loadWeatherFor(results[0].latitude, results[0].longitude, buildPlaceLabel(results[0]));
-  } catch (err) {
-    getEl("errorMessage").textContent = "Network error, try again."; showOnly("errorBox");
-  }
+    var place = results[0];
+    loadWeatherFor(place.latitude, place.longitude, buildPlaceLabel(place));
+  });
 }
-async function loadWeatherFor(lat, lon, placeLabel) { // gets the actual weather numbers for a given lat/lon
+function loadWeatherFor(lat, lon, placeLabel) { // gets the actual weather numbers for a lat/lon
   showOnly("loadingBox");
-  try {
-    const params = new URLSearchParams({
-      latitude: lat, longitude: lon,
-      current: "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure",
-      hourly: "temperature_2m,weather_code",
-      daily: "weather_code,temperature_2m_max,temperature_2m_min,uv_index_max",
-      timezone: "auto", forecast_days: 7
-    });
-    const res = await fetch(WEATHER_API_URL + "?" + params); const data = await res.json();
+  var params = new URLSearchParams({
+    latitude: lat, longitude: lon,
+    current: "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure",
+    hourly: "temperature_2m,weather_code",
+    daily: "weather_code,temperature_2m_max,temperature_2m_min,uv_index_max",
+    timezone: "auto", forecast_days: 7
+  });
+  fetch(WEATHER_API_URL + "?" + params).then(function (res) { return res.json(); }).then(function (data) {
     displayWeather(data, placeLabel, lat, lon);
-  } catch (err) {
-    getEl("errorMessage").textContent = "Instruments went quiet, try again."; showOnly("errorBox");
-  }
+  }).catch(function (err) {
+    getEl("errorMessage").textContent = "Instruemnts Went Quiet, Try Agian.";
+    showOnly("errorBox");
+  });
 }
 function showOnly(boxId) { // show only one box at a time: loading / error / dashboard
-  ["loadingBox", "errorBox", "dashboardBox"].forEach(function (id) { getEl(id).hidden = (id !== boxId); });
+  var boxes = ["loadingBox", "errorBox", "dashboardBox"];
+  for (var i = 0; i < boxes.length; i++) { getEl(boxes[i]).hidden = (boxes[i] !== boxId); }
 }
 function displayWeather(data, placeLabel, lat, lon) { // fill the whole page with weather numbers
-  const c = data.current;
+  var c = data.current;
   getEl("coordsText").textContent = lat.toFixed(2) + "° " + lon.toFixed(2) + "°";
   getEl("placeText").textContent = placeLabel;
   getEl("tempNumber").textContent = Math.round(c.temperature_2m);
@@ -191,59 +187,61 @@ function displayWeather(data, placeLabel, lat, lon) { // fill the whole page wit
   getEl("needleGroup").setAttribute("transform", "rotate(" + c.wind_direction_10m + " 110 110)");
   getEl("windSpeedText").textContent = Math.round(c.wind_speed_10m) + " km/h";
   getEl("windDirText").textContent = Math.round(c.wind_direction_10m) + "° " + angleToCompassLetter(c.wind_direction_10m);
-  fillGaugeCards(c, data.daily); fillHourlyRow(data.hourly); fillDailyList(data.daily);
-  getEl("updatedTimeText").textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  fillGaugeCards(c, data.daily);
+  fillHourlyRow(data.hourly);
+  fillDailyList(data.daily);
   showOnly("dashboardBox");
 }
 function fillGaugeCards(c, daily) {
-  const uv = daily.uv_index_max ? daily.uv_index_max[0] : null;
-  const list = [
-    ["Humidity", Math.round(c.relative_humidity_2m) + "<small>%</small>", c.relative_humidity_2m],
-    ["Pressure", Math.round(c.surface_pressure) + "<small>hPa</small>", clampNumber((c.surface_pressure - 970) / 0.8, 4, 100)],
-    ["Precipitation", c.precipitation.toFixed(1) + "<small>mm</small>", clampNumber(c.precipitation * 20, 4, 100)],
-    ["UV index", uv !== null ? uv.toFixed(1) : "—", uv !== null ? clampNumber((uv / 11) * 100, 4, 100) : 0]
+  var uv = daily.uv_index_max ? daily.uv_index_max[0] : null;
+  var list = [
+    ["Humidty", Math.round(c.relative_humidity_2m) + "<small>%</small>", c.relative_humidity_2m],
+    ["Presure", Math.round(c.surface_pressure) + "<small>hPa</small>", clampNumber((c.surface_pressure - 970) / 0.8, 4, 100)],
+    ["Precipitaton", c.precipitation.toFixed(1) + "<small>mm</small>", clampNumber(c.precipitation * 20, 4, 100)],
+    ["UV Indx", uv !== null ? uv.toFixed(1) : "-", uv !== null ? clampNumber((uv / 11) * 100, 4, 100) : 0]
   ];
-  const grid = getEl("gaugeGrid"); grid.innerHTML = "";
-  list.forEach(function (g) {
+  var grid = getEl("gaugeGrid"); grid.innerHTML = "";
+  for (var i = 0; i < list.length; i++) {
+    var g = list[i];
     grid.innerHTML += '<div class="gauge-card raised"><p class="gauge-label">' + g[0] + '</p><p class="gauge-value">' + g[1] + '</p><div class="gauge-bar-bg"><div class="gauge-bar-fill" style="width:' + g[2] + '%"></div></div></div>';
-  });
+  }
 }
 function fillHourlyRow(hourly) {
-  const row = getEl("hourlyRow"); row.innerHTML = "";
-  const now = new Date();
-  let startIndex = hourly.time.findIndex(function (t) { return new Date(t) >= now; });
-  if (startIndex === -1) startIndex = 0;
-  hourly.time.slice(startIndex, startIndex + 24).forEach(function (t, i) {
-    const idx = startIndex + i, hourLabel = new Date(t).toLocaleTimeString([], { hour: "numeric" });
+  var row = getEl("hourlyRow"); row.innerHTML = "";
+  var now = new Date(), startIndex = 0;
+  for (var i = 0; i < hourly.time.length; i++) { if (new Date(hourly.time[i]) >= now) { startIndex = i; break; } }
+  var end = Math.min(startIndex + 24, hourly.time.length);
+  for (var idx = startIndex; idx < end; idx++) {
+    var hourLabel = new Date(hourly.time[idx]).toLocaleTimeString([], { hour: "numeric" });
     row.innerHTML += '<div class="hour-card raised"><p class="hour-time">' + hourLabel + '</p><p class="hour-icon">' + getWeatherIcon(hourly.weather_code[idx]) + '</p><p class="hour-temp">' + Math.round(hourly.temperature_2m[idx]) + '°</p></div>';
-  });
+  }
 }
 function fillDailyList(daily) {
-  const list = getEl("dailyList");
-  list.innerHTML = "";
-  const lows = daily.temperature_2m_min, highs = daily.temperature_2m_max;
-  const weekMin = Math.min.apply(null, lows), weekMax = Math.max.apply(null, highs), weekSpan = (weekMax - weekMin) || 1;
-  daily.time.forEach(function (dateStr, i) {
-    const dayLabel = (i === 0) ? "Today" : new Date(dateStr).toLocaleDateString([], { weekday: "short" });
-    const low = Math.round(lows[i]), high = Math.round(highs[i]);
-    const left = ((low - weekMin) / weekSpan) * 100, width = Math.max(((high - low) / weekSpan) * 100, 6);
+  var list = getEl("dailyList"); list.innerHTML = "";
+  var lows = daily.temperature_2m_min, highs = daily.temperature_2m_max;
+  var weekMin = lows[0], weekMax = highs[0];
+  for (var i = 1; i < lows.length; i++) { if (lows[i] < weekMin) weekMin = lows[i]; if (highs[i] > weekMax) weekMax = highs[i]; }
+  var weekSpan = (weekMax - weekMin) || 1;
+  for (var i = 0; i < daily.time.length; i++) {
+    var dayLabel = (i === 0) ? "Toady" : new Date(daily.time[i]).toLocaleDateString([], { weekday: "short" });
+    var low = Math.round(lows[i]), high = Math.round(highs[i]);
+    var left = ((low - weekMin) / weekSpan) * 100, width = Math.max(((high - low) / weekSpan) * 100, 6);
     list.innerHTML += '<div class="day-row pressed"><span class="day-name">' + dayLabel + '</span><span>' + getWeatherIcon(daily.weather_code[i]) + '</span><div class="day-track"><div class="day-track-fill" style="left:' + left + '%; width:' + width + '%"></div></div><span class="day-temp-range"><span class="day-low">' + low + '°</span> / ' + high + '°</span></div>';
-  });
+  }
 }
 // runs first, when the page opens
 drawCompassTicks();
 getEl("searchForm").addEventListener("submit", function (e) {
   e.preventDefault();
-  const typed = getEl("cityInput").value.trim();
-  if (typed) searchAndShowWeather(typed);
+  var typed = getEl("cityInput").value.trim();
+  if (typed) { searchAndShowWeather(typed); }
 });
 // try browser location first, fall back to Patna if blocked or unavailable
-function useDefaultCity() { loadWeatherFor(25.5941, 85.1376, "Patna, India"); }
+function useDefaultCity() { loadWeatherFor(25.5941, 85.1376, "Patna, Indai"); }
 if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    function (pos) { loadWeatherFor(pos.coords.latitude, pos.coords.longitude, "Your location"); },
-    useDefaultCity, { timeout: 4000 }
-  );
+  navigator.geolocation.getCurrentPosition(function (pos) {
+    loadWeatherFor(pos.coords.latitude, pos.coords.longitude, "Your Locaton");
+  }, useDefaultCity, { timeout: 4000 });
 } else { useDefaultCity(); }
 </script>
 </body>
