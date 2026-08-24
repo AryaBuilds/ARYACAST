@@ -1,18 +1,39 @@
- i builtt A weather dashboard 
+# Doraemon Weather App
 
-Search any city and get live weather current temperature A wind Compass That  Rotates to the real wind direction an hourly Forecast For The Next 24 hoursand  7Day look
+A mobile-first Doraemon-inspired weather application using the free Open-Meteo public APIs.
 
-with a UNIQE STYLE THATS I WANT  style instead  soft  and UI elements One Background CVolor Shadows Doing all the workebulke
+## Run
 
+No build system is required.
 
-Weather Data  comes from Open Meteo free No API key needed no signup 
+1. Extract the ZIP.
+2. Open `index.html` in a modern browser.
+3. For best results, serve the folder with any simple local/static server (for example VS Code Live Server).
 
-Geocoding API turns a city name into coordinates
+## Live data
 
-Forecast API — current hourly and 7day weather for those coordinates  
+- Forecast: Open-Meteo Forecast API
+- City search: Open-Meteo Geocoding API
+- No API key is required for the eligible free/non-commercial use tier.
+- The app requests current conditions, hourly forecast, 7-day forecast, UV index, sunrise/sunset and basic weather details.
 
+Open-Meteo states that its free API is intended for non-commercial use, is rate-limited, and requires CC BY 4.0 attribution. Check the current Open-Meteo terms before publishing a commercial app.
 
-Just open link  in a browser No build step no install 
+## Important
 
-the wheteher tracker working P  ERFECTLY I SPENT 3 HOURS TO FIND HOW TO MAKLE A whether website that didnt need any Api 
-I want to aad wsome aniamations on this but i am lerning How to aad 
+The included mascot is a CSS-created Doraemon-inspired cartoon visual, not an official Doraemon asset. If publishing publicly, use artwork/assets that you are licensed to distribute.
+
+## Included screens
+
+- Home
+- Hourly + 7-day Forecast
+- Weather Details
+- Radar visual mode
+- Alerts
+- Settings
+- City search
+- Current-location weather
+
+## Notes
+
+The Radar screen is a lightweight animated radar-style visualization, not a live precipitation tile service. The weather values themselves are live from Open-Meteo.
