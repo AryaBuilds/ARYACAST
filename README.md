@@ -1,36 +1,27 @@
-# Doraemon Weather App
+aryacast Doraemon Weather App
 
-A mobile-first Doraemon-inspired weather application using the free Open-Meteo public APIs.
+A mobile first Doraemon Inspired Weather Application Using The Free Open-Meteo public APII
+OPEN THE LINK AND RUN 
+ 
+ Live data
 
-## Run
+ Forecast: Open-Meteo Forecast API
+  City search Open Meteo Geocoding API
+ No API key is required for the eligible free/non-commercial use tier.
+The WEB SHOWS  current conditions  hourly forecast 7-day forecast UV inde sunrisesunset and  weather details
 
-No build system is required.
+Open Meteo states that its free API  I DONT WANT TO AAD API 
+ Important
 
-1. Extract the ZIP.
-2. Open `index.html` in a modern browser.
-3. For best results, serve the folder with any simple local/static server (for example VS Code Live Server).
+I INSPIRED WITH DORIMON AND CREATED THE DORIMON THEMEM 
+ HOME  screens
 
-## Live data
-
-- Forecast: Open-Meteo Forecast API
-- City search: Open-Meteo Geocoding API
-- No API key is required for the eligible free/non-commercial use tier.
-- The app requests current conditions, hourly forecast, 7-day forecast, UV index, sunrise/sunset and basic weather details.
-
-Open-Meteo states that its free API is intended for non-commercial use, is rate-limited, and requires CC BY 4.0 attribution. Check the current Open-Meteo terms before publishing a commercial app.
-
-## Important
-
-The included mascot is a CSS-created Doraemon-inspired cartoon visual, not an official Doraemon asset. If publishing publicly, use artwork/assets that you are licensed to distribute.
-
-## Included screens
-
-- Home
-- Hourly + 7-day Forecast
-- Weather Details
-- Radar visual mode
-- Alerts
-- Settings
+Home
+Hourly  7-day Forecast
+ Weather Details
+Radar visual mode
+Alerts
+Settings
 - City search
 - Current-location weather
 
